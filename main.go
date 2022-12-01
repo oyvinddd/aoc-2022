@@ -1,7 +1,10 @@
 package main
 
-import "aoc-2022/day1"
+import (
+	"fmt"
+)
 
 func main() {
 	day1.Execute()
+	fmt.Println("HELLO")
 }
