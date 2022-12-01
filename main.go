@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"aoc-2022/day1"
 )
 
 func main() {
 	day1.Execute()
-	fmt.Println("HELLO")
 }

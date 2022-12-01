@@ -5,26 +5,41 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 )
 
 func Execute() {
 	// open file
-	f, err := os.Open("input")
+	fh, err := os.Open("day1/input")
 	if err != nil {
 		log.Fatal(err)
 	}
 	// remember to close the file at the end of the program
-	defer f.Close()
+	defer fh.Close()
 
 	// read the file line by line using scanner
-	scanner := bufio.NewScanner(f)
+	scanner := bufio.NewScanner(fh)
 
+	maxCalories, currentCalories := 0, 0
 	for scanner.Scan() {
-		// do something with a line
-		fmt.Printf("line: %s\n", scanner.Text())
+		line := scanner.Text()
+		if line == "" {
+			if currentCalories > maxCalories {
+				maxCalories = currentCalories
+			}
+			currentCalories = 0
+			continue
+		}
+		calories, err := strconv.Atoi(line)
+		if err != nil {
+			log.Fatal(err)
+		}
+		currentCalories += calories
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Printf("Max calories: %v", maxCalories)
 }
