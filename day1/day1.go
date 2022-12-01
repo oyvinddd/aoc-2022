@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strconv"
 )
 
@@ -20,6 +21,7 @@ func Execute() {
 	// read the file line by line using scanner
 	scanner := bufio.NewScanner(fh)
 
+	var allCalories []int
 	maxCalories, currentCalories := 0, 0
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -27,9 +29,11 @@ func Execute() {
 			if currentCalories > maxCalories {
 				maxCalories = currentCalories
 			}
+			allCalories = append(allCalories, currentCalories)
 			currentCalories = 0
 			continue
 		}
+
 		calories, err := strconv.Atoi(line)
 		if err != nil {
 			log.Fatal(err)
@@ -40,6 +44,11 @@ func Execute() {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+	
+	sort.Slice(allCalories, func(i, j int) bool {
+		return allCalories[i] > allCalories[j]
+	})
 
-	fmt.Printf("Max calories: %v", maxCalories)
+	sum := allCalories[0] + allCalories[1] + allCalories[2]
+	fmt.Println(sum)
 }
